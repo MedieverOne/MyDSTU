@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/backround_login"
+    android:padding="25dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.profile.UserEditFragment">
+
+    <RelativeLayout
+        android:id="@+id/llEditName"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/llEditSurname">
+
+        <TextView
+            android:id="@+id/tvEditName"
+            style="@style/TextViewRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:text="@string/reg_name"
+            android:textColor="@color/whiteTextColor" />
+
+        <EditText
+            android:id="@+id/etEditName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:layout_below="@id/tvEditName"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/whiteTextColor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/llEditSurname"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/llEditName"
+        app:layout_constraintBottom_toTopOf="@id/llEditFaculty">
+
+        <TextView
+            android:id="@+id/tvEditSurname"
+            style="@style/TextViewRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:text="@string/reg_surname"
+            android:textColor="@color/whiteTextColor" />
+
+        <EditText
+            android:id="@+id/etEditSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:layout_below="@id/tvEditSurname"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="@color/whiteTextColor" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/llEditFaculty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/llEditSurname"
+        app:layout_constraintBottom_toTopOf="@id/llEditCourse">
+
+        <TextView
+            android:id="@+id/tvEditFaculty"
+            style="@style/TextViewRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:text="@string/profile_faculty_hint"
+            android:textColor="@color/whiteTextColor" />
+
+        <EditText
+            android:id="@+id/etEditFaculty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:layout_below="@id/tvEditFaculty"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=""
+            android:textColor="@color/whiteTextColor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/llEditCourse"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/llEditFaculty"
+        app:layout_constraintBottom_toTopOf="@id/llEditGroup">
+
+        <TextView
+            android:id="@+id/tvEditCourse"
+            style="@style/TextViewRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:text="@string/profile_course_hint"
+            android:textColor="@color/whiteTextColor" />
+
+        <EditText
+            android:id="@+id/etEditCourse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:layout_below="@id/tvEditCourse"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=""
+            android:textColor="@color/whiteTextColor" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/llEditGroup"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/llEditCourse"
+        app:layout_constraintBottom_toTopOf="@id/buttonEditUser">
+
+        <TextView
+            android:id="@+id/tvEditGroup"
+            style="@style/TextViewRegistration"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:text="@string/profile_group_hint"
+            android:textColor="@color/whiteTextColor" />
+
+        <EditText
+            android:id="@+id/etEditGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constrainedHeight="true"
+            android:layout_below="@id/tvEditGroup"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=""
+            android:textColor="@color/whiteTextColor" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/buttonEditUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintTop_toBottomOf="@id/llEditGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/profile_edit_button"
+        android:background="@color/colorButtonLog"
+        android:textColor="#FFFFFF"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

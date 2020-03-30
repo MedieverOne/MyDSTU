@@ -46,8 +46,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     } // onClicked
 
     void logButtonClicked() {
-        NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
-        navController.navigate(R.id.action_profile_login_to_user);
+        //NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
+        //navController.navigate(R.id.action_profile_login_to_user);
     }
 
     void regButtonClicked() {

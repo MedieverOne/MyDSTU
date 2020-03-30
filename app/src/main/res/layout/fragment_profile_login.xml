@@ -11,9 +11,6 @@
     android:paddingRight="25dp"
     tools:context=".ui.profile.LoginFragment">
 
-
-
-
     <ImageView
         android:id="@+id/ivLogo_login"
         android:layout_width="wrap_content"
@@ -27,12 +24,10 @@
         app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/ivLogo_login"
         app:layout_constraintBottom_toTopOf="@id/llLoginPass"
         app:layout_constrainedHeight="true">
@@ -55,17 +50,16 @@
             android:id="@+id/etLogin_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/tvLogin_login"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/llLoginContainer"
         app:layout_constraintBottom_toTopOf="@id/llLoginButtons"
@@ -76,7 +70,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:layout_weight="1"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="3"
             android:shadowDy="3"
@@ -89,18 +82,16 @@
             android:id="@+id/etPassword_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/tvPassword_login"
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/llLoginPass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constrainedHeight="true">
@@ -108,10 +99,12 @@
         <Button
             android:id="@+id/logButton_login"
             style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:layout_weight="1"
+            android:paddingHorizontal="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:background="@color/colorButtonLog"
             android:text="@string/button_login"
             android:textColor="#FFFFFF" />
@@ -121,12 +114,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@id/logButton_login"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="@string/button_registration"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

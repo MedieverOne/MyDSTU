@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,9 +9,6 @@
     android:background="@mipmap/backround_login"
     android:padding="10dp"
     tools:context=".ui.profile.LoginFragment">
-
-    
-
 
     <ImageView
         android:id="@+id/ivLogo_login"
@@ -24,11 +22,11 @@
         app:layout_constrainedHeight="true"
         app:layout_constrainedWidth="true"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/llLoginPass"
         app:layout_constraintStart_toEndOf="@id/ivLogo_login"
@@ -38,10 +36,8 @@
 
         <TextView
             android:id="@+id/tvLogin_login"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_weight="1"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="3"
             android:shadowDy="3"
@@ -52,15 +48,15 @@
 
         <EditText
             android:id="@+id/etLogin_login"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/tvLogin_login"
             android:ems="10"
             android:inputType="textEmailAddress"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,11 +68,9 @@
         app:layout_constrainedHeight="true">
 
         <TextView
-            android:id="@+id/tvPassword"
-            android:layout_width="match_parent"
+            android:id="@+id/tvPassword_login"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_weight="1"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="3"
             android:shadowDy="3"
@@ -87,20 +81,19 @@
 
         <EditText
             android:id="@+id/etPassword"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@id/tvPassword_login"
             android:ems="10"
             android:inputType="textPassword"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llLoginButtons"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
+        android:layout_height="0dp"
+        android:gravity="center_horizontal"
         app:layout_constraintTop_toBottomOf="@id/llLoginPass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,10 +104,12 @@
         <Button
             android:id="@+id/logButton_login"
             style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:layout_weight="1"
+            android:paddingHorizontal="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
             android:background="@color/colorButtonLog"
             android:text="@string/button_login"
             android:textColor="#FFFFFF" />
@@ -124,12 +119,13 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
+            android:layout_below="@id/logButton_login"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="15dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:text="@string/button_registration"
             android:textColor="@color/whiteTextColor" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
