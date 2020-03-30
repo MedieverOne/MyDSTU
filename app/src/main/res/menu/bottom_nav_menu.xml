@@ -12,7 +12,7 @@
         android:title="@string/title_divisions" />
 
     <item
-        android:id="@+id/navigation_profile_login"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/account"
         android:title="@string/title_profile" />
 

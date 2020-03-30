@@ -1,5 +1,6 @@
 package com.mediever.softworks.mydstu.ui.profile;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,24 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.mediever.softworks.mydstu.R;
+import com.mediever.softworks.mydstu.network.models.LoginModel;
+import com.mediever.softworks.mydstu.profile.UserViewModel;
+
+import java.util.zip.Inflater;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
     Button logButton;
     Button regButton;
+    LoginModel loginModel;
+    UserViewModel userViewModel;
 
     @Nullable
     @Override
@@ -26,6 +37,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         regButton = root.findViewById(R.id.regButton_login);
         logButton.setOnClickListener(this);
         regButton.setOnClickListener(this);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         return root;
     }
 
@@ -45,9 +57,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
     } // onClicked
 
+    @SuppressLint("ResourceType")
     void logButtonClicked() {
-        //NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
-        //navController.navigate(R.id.action_profile_login_to_user);
+        LoginModel loginModel = new LoginModel();
+        loginModel.setEmail("allroads2rome@gmail.com");
+        loginModel.setPassword("test1111");
+        userViewModel.login(loginModel);
+        NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
+        navController.navigate(R.id.action_profile_login_to_user);
     }
 
     void regButtonClicked() {

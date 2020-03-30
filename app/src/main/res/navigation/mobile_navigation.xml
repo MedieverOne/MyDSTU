@@ -48,36 +48,51 @@
         tools:layout="@layout/fragment_full_department">
     </fragment>
 
-    <fragment
-        android:id="@+id/navigation_profile_login"
-        android:name="com.mediever.softworks.mydstu.ui.profile.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_profile_login">
-        <action
-            android:id="@+id/action_profile_login_to_registration"
-            app:destination="@id/navigation_profile_registration"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit" />
-        <action
-            android:id="@+id/action_profile_login_to_user"
-            app:destination="@id/navigation_profile_user"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit"
-            app:popEnterAnim="@anim/fragment_fade_enter"
-            app:popExitAnim="@anim/fragment_fade_exit"/>
-    </fragment>
+    <navigation
+        android:id="@+id/navigation_profile"
+        android:label="@string/title_profile"
+        app:startDestination="@id/navigation_profile_login">
+        <fragment
+            android:id="@+id/navigation_profile_login"
+            android:name="com.mediever.softworks.mydstu.ui.profile.LoginFragment"
+            android:label="Login"
+            tools:layout="@layout/fragment_profile_login">
+            <action
+                android:id="@+id/action_profile_login_to_registration"
+                app:destination="@id/navigation_profile_registration"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/fragment_fade_enter"
+                app:popExitAnim="@anim/fragment_fade_exit" />
+            <action
+                android:id="@+id/action_profile_login_to_user"
+                app:destination="@id/navigation_profile_user"
+                app:enterAnim="@anim/fragment_fade_enter"
+                app:exitAnim="@anim/fragment_fade_exit"
+                app:popEnterAnim="@anim/fragment_fade_enter"
+                app:popExitAnim="@anim/fragment_fade_exit" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_profile_user"
+            android:name="com.mediever.softworks.mydstu.ui.profile.UserFragment"
+            android:label="User"
+            tools:layout="@layout/fragment_profile_user">
+            <action
+                android:id="@+id/action_profile_user_to_useredit"
+                app:destination="@id/navigation_profile_useredit" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_profile_registration"
+            android:name="com.mediever.softworks.mydstu.ui.profile.RegistrationFragment"
+            android:label="Login"
+            tools:layout="@layout/fragment_profile_registration" />
+        <fragment
+            android:id="@+id/navigation_profile_useredit"
+            android:name="com.mediever.softworks.mydstu.ui.profile.UserEditFragment"
+            android:label="UserEdit"
+            tools:layout="@layout/fragment_profile_useredit">
 
-    <fragment
-        android:id="@+id/navigation_profile_registration"
-        android:name="com.mediever.softworks.mydstu.ui.profile.RegistrationFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_profile_registration"/>
+        </fragment>
 
-    <fragment
-        android:id="@+id/navigation_profile_user"
-        android:name="com.mediever.softworks.mydstu.ui.profile.UserFragment"
-        android:label="User"
-        tools:layout="@layout/fragment_profile_user"/>
+    </navigation>
 </navigation>

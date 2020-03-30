@@ -8,14 +8,35 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavInflater;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.mediever.softworks.mydstu.R;
+import com.mediever.softworks.mydstu.entities.User;
+import com.mediever.softworks.mydstu.profile.UserViewModel;
 
 public class UserFragment extends Fragment {
+    UserViewModel userViewModel;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile_user,container,false);
+        NavController navController = NavHostFragment.findNavController(this);
+        NavInflater inf = navController.getNavInflater();
+        NavGraph graph = inf.inflate(R.navigation.mobile_navigation);
+        graph.setStartDestination(R.id.navigation_profile_user);
+        userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        userViewModel.getUser().observe(getViewLifecycleOwner(), new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+
+            }
+        });
         return root;
     }
 }
