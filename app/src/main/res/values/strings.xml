@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">MyDSTU</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="title_profile">Профиль</string>
+    <string name="title_divisions">Подразделения</string>
+    <string name="title_news">Новости</string>
+
+    <string name="login">Email:</string>
+    <string name="password">Пароль:</string>
+    <string name="button_login">Авторизоваться</string>
+    <string name="button_registration">Регистрация</string>
+
+    <string name="reg_name">Имя: </string>
+    <string name="reg_surname">Фамилия: </string>
+    <string name="reg_email">Адрес эл.почты: </string>
+    <string name="reg_password">Пароль: </string>
+    <string name="reg_button">Регистрация</string>
+    <string name="reg_info"> </string>
+
+    <string name="profile_name_hint">Имя: </string>
+    <string name="profile_email_hint">Адрес эл.почты: </string>
+    <string name="profile_faculty_hint">Факультет: </string>
+    <string name="profile_course_hint">Курс: </string>
+    <string name="profile_group_hint">Группа: </string>
+
+    <string name="profile_edit_button">Редактировать</string>
+
+    <string name="connect_to_server_error">Ошибка подключения к серверу. Порпобуйте снова…</string>
+
+    <string name="calendHint">"Выберите дату события/новости/мероприятия\n(для выбора текущей даты, нажмите на неё)"</string>
+
+    <string name="itemAllNews">Все новости</string>
+    <string name="itemNews">Новости ВУЗа</string>
+    <string name="itemEvent">События</string>
+    <string name="itemMeeting">Встречи</string>
+
+    <string name="ratingSuccess">Спасибо за вашу оценку!</string>
+</resources>

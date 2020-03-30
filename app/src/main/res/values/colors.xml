@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="colorPrimary">#6200EE</color>-->
+<!--    <color name="colorPrimaryDark">#3700B3</color>-->
+<!--    <color name="colorAccent">#03DAC5</color>-->
+    <color name="colorPrimary">#0E58E2</color>
+    <color name="colorPrimaryDark">#0045BE</color>
+    <color name="colorAccent">#FFFFFF</color>
+
+    <color name="colorDSTU">#0045BE</color>
+    <color name="bottomNavBarBack">#85FFFFFF</color>
+
+    <color name="downloadImageColor">#C38B8B8B</color>
+
+    <color name="whiteTextColor">#FFFFFF</color>
+    <color name="aquaTextColor">#00FFF2</color>
+    <color name="text_shadow">#7F000000</color>
+    <color name="text_shadow_white">#FFFFFF</color>
+
+    <color name="colorButtonLog">#97376CD5</color>
+    <color name="colorProfileBackground">#80000000</color>
+
+    <color name="colorRatingBackground">#33FFFFFF</color>
+    <color name="colorRatingBackBackground">#67000000</color>
+</resources>
