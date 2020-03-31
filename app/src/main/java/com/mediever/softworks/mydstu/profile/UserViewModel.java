@@ -11,7 +11,6 @@ import com.mediever.softworks.mydstu.network.getData.NetworkUserRepository;
 import com.mediever.softworks.mydstu.network.models.LoginModel;
 
 public class UserViewModel extends AndroidViewModel {
-    LiveData<User> user;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -19,6 +18,10 @@ public class UserViewModel extends AndroidViewModel {
 
     public LiveData<User> getUser() {
         return NetworkUserRepository.getInstance().getUser();
+    }
+
+    public LiveData<String> getSessionId() {
+        return NetworkUserRepository.getInstance().getSessionId();
     }
 
     public void login(LoginModel loginModel) {

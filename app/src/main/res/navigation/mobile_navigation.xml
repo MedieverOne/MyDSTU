@@ -51,7 +51,21 @@
     <navigation
         android:id="@+id/navigation_profile"
         android:label="@string/title_profile"
-        app:startDestination="@id/navigation_profile_login">
+        app:startDestination="@id/navigation_profile_root">
+        <fragment
+            android:id="@+id/navigation_profile_root"
+            android:name="com.mediever.softworks.mydstu.ui.profile.RootProfileFragment"
+            tools:layout="@layout/fragment_profile_root"
+            app:startDestination="@id/action_profile_root_to_login">
+
+            <action
+                android:id="@+id/action_profile_root_to_login"
+                app:destination="@id/navigation_profile_login" />
+            <action
+                android:id="@+id/action_profile_root_to_user"
+                app:destination="@id/navigation_profile_user" />
+        </fragment>
+
         <fragment
             android:id="@+id/navigation_profile_login"
             android:name="com.mediever.softworks.mydstu.ui.profile.LoginFragment"
@@ -60,13 +74,6 @@
             <action
                 android:id="@+id/action_profile_login_to_registration"
                 app:destination="@id/navigation_profile_registration"
-                app:enterAnim="@anim/fragment_fade_enter"
-                app:exitAnim="@anim/fragment_fade_exit"
-                app:popEnterAnim="@anim/fragment_fade_enter"
-                app:popExitAnim="@anim/fragment_fade_exit" />
-            <action
-                android:id="@+id/action_profile_login_to_user"
-                app:destination="@id/navigation_profile_user"
                 app:enterAnim="@anim/fragment_fade_enter"
                 app:exitAnim="@anim/fragment_fade_exit"
                 app:popEnterAnim="@anim/fragment_fade_enter"

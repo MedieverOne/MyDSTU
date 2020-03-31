@@ -21,6 +21,7 @@ public class NetworkUserRepository {
         private NetworkUserRepository() {
             user = new MutableLiveData<>();
             sessionId = new MutableLiveData<>();
+            sessionId.setValue(" ");
         }
 
         public static NetworkUserRepository getInstance() {
@@ -35,7 +36,9 @@ public class NetworkUserRepository {
                 @Override
                 public void onResponse(Call<ErrorMessage> call, Response<ErrorMessage> response) {
                     if(response.isSuccessful() && response.body().getAnswer().length() != 0) {
-                        sessionId.setValue(response.headers().values("Set-Cookie").toString().replace("[", "").replace("]", ""));
+                        sessionId.setValue(response.headers()
+                                .values("Set-Cookie").toString()
+                                .replace("[", "").replace("]", ""));
                         loginCheck = true;
                     }
                 }
@@ -67,5 +70,8 @@ public class NetworkUserRepository {
             return user;
         }
 
+        public synchronized LiveData<String> getSessionId() {
+            return sessionId;
+        }
 
 }

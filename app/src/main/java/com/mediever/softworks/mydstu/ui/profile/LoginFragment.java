@@ -2,6 +2,7 @@ package com.mediever.softworks.mydstu.ui.profile;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavGraph;
@@ -28,6 +30,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     Button regButton;
     LoginModel loginModel;
     UserViewModel userViewModel;
+    NavController navController;
 
     @Nullable
     @Override
@@ -38,6 +41,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         logButton.setOnClickListener(this);
         regButton.setOnClickListener(this);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
+        navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
         return root;
     }
 
@@ -63,8 +67,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginModel.setEmail("allroads2rome@gmail.com");
         loginModel.setPassword("test1111");
         userViewModel.login(loginModel);
-        NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
-        navController.navigate(R.id.action_profile_login_to_user);
+        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                navController.popBackStack();
+            }
+        });
     }
 
     void regButtonClicked() {
