@@ -13,6 +13,7 @@ import com.mediever.softworks.mydstu.network.getData.NetworkFeedsRepository;
 import com.mediever.softworks.mydstu.network.models.DepartmentsModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class DepartmentsRepository {
     private DepartmentsDao departmentsDao;
@@ -25,7 +26,7 @@ public class DepartmentsRepository {
     }
 
     public LiveData<List<Department>> getAllDepartments() {
-        if(allDepartments == null) {
+        if(allDepartments.getValue().isEmpty()) {
             NetworkDepartmentsRepository networkDepartmentsRepository = NetworkDepartmentsRepository.getInstance();
             networkDepartmentsRepository.getDepartments().observeForever(new Observer<DepartmentsModel>() {
                 @Override

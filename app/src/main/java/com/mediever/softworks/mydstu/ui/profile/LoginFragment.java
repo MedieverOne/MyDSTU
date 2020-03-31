@@ -42,6 +42,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         regButton.setOnClickListener(this);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
+        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(!s.equals(" "))
+                    navController.popBackStack();
+            }
+        });
         return root;
     }
 
@@ -67,12 +74,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginModel.setEmail("allroads2rome@gmail.com");
         loginModel.setPassword("test1111");
         userViewModel.login(loginModel);
-        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                navController.popBackStack();
-            }
-        });
     }
 
     void regButtonClicked() {

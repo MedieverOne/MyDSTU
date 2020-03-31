@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,18 +20,21 @@ import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.departmentsList.DepartmentsAdapter;
 import com.mediever.softworks.mydstu.departmentsList.DepartmentsViewModel;
 import com.mediever.softworks.mydstu.entities.Department;
+import com.mediever.softworks.mydstu.network.models.DepartmentsModel;
 
 import java.util.List;
 
 public class DepartmentsListFragment extends Fragment {
     DepartmentsViewModel departmentsViewModel;
     private RecyclerView departmentsRecycler;
+    ProgressBar progressBar;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_departments_list,container,false);
         departmentsRecycler = root.findViewById(R.id.departmentsList);
+        progressBar = root.findViewById(R.id.pbEmptyDepartments);
         departmentsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         departmentsRecycler.setHasFixedSize(true);
 
@@ -38,10 +42,11 @@ public class DepartmentsListFragment extends Fragment {
         departmentsRecycler.setAdapter(departmentsAdapter);
 
         departmentsViewModel = ViewModelProviders.of(this).get(DepartmentsViewModel.class);
-        departmentsViewModel.getAllDepartments().observe(getViewLifecycleOwner(), new Observer<List<Department>>() {
+        departmentsViewModel.getAllDepartments().observe(getViewLifecycleOwner(), new Observer<DepartmentsModel>() {
             @Override
-            public void onChanged(List<Department> departments) {
-                    departmentsAdapter.setData(departments);
+            public void onChanged(DepartmentsModel departments) {
+                    departmentsAdapter.setData(departments.getList());
+                    progressBar.setVisibility(View.GONE);
             }
         });
 
