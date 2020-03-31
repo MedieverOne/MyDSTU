@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/filter_popup_menu">
+    <item
+        android:id="@+id/all_feeds_filter_menu"
+        android:title="@string/itemAllNews">
+    </item>
+
+    <item
+        android:id="@+id/news_filter_menu"
+        android:title="@string/itemNews">
+    </item>
+
+    <item
+        android:id="@+id/events_filter_menu"
+        android:title="@string/itemEvent">
+    </item>
+
+    <item
+        android:id="@+id/meetings_filter_menu"
+        android:title="@string/itemMeeting">
+    </item>
+</menu>

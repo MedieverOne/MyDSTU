@@ -57,6 +57,13 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.FeedsV
         notifyDataSetChanged();
     }
 
+    public void clearData() {
+        if(mData!=null) {
+            this.mData = new ArrayList<>();
+            notifyDataSetChanged();
+        }
+    }
+
     public class FeedsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvTitle;
         private TextView tvDate;
