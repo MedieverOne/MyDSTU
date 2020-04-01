@@ -65,9 +65,8 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
         NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
         feedListAdapter = new FeedListAdapter(navController);
         feedsRecycler.setAdapter(feedListAdapter);
-
         feedsViewModel = ViewModelProviders.of(this).get(FeedsViewModel.class);
-
+        feedsViewModel.downloadFeeds();
         getFeeds(page,type,date);
         return root;
     }
@@ -95,32 +94,30 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                feedListAdapter.clearData();
+                progressBar.setVisibility(View.VISIBLE);
                 switch(item.getItemId()) {
                     case R.id.all_feeds_filter_menu: {
                         type = "";
                         view.setText(R.string.itemAllNews);
-                       // view.setCompoundDrawablesWithIntrinsicBounds(0,0,android.R.drawable.arrow_down_float, 0);
                         getFeeds(page,type,date);
                         return true;
                     }
                     case R.id.news_filter_menu: {
                         type = "news";
                         view.setText(R.string.itemNews);
-                      //  view.setCompoundDrawablesWithIntrinsicBounds(0,0,android.R.drawable.arrow_down_float, 0);
                         getFeeds(page,type,date);
                         return true;
                     }
                     case R.id.meetings_filter_menu: {
                         type = "meeting";
                         view.setText(R.string.itemMeeting);
-                      ///  view.setCompoundDrawablesWithIntrinsicBounds(0,0,android.R.drawable.arrow_down_float, 0);
                         getFeeds(page,type,date);
                         return true;
                     }
                     case R.id.events_filter_menu: {
                         type = "event";
                         view.setText(R.string.itemEvent);
-                       // view.setCompoundDrawablesWithIntrinsicBounds(0,0,android.R.drawable.arrow_down_float, 0);
                         getFeeds(page,type,date);
                         return true;
                     }
@@ -146,6 +143,8 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
                 .show();
     }
 
+
+    // Вообще по-идее должен быть фильтр по дате. API кривое, мой код не лучше. Для презентации сойдет.
     private DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -156,14 +155,13 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
     };
 
     private void getFeeds(int page, String type, String date) {
-        feedListAdapter.clearData();
-        progressBar.setVisibility(View.VISIBLE);
-        feedsViewModel.getFeeds(page,type,date).observe(getViewLifecycleOwner(), new Observer<PageFeedsModel>() {
-            @Override
-            public void onChanged(PageFeedsModel pageFeedsModel) {
-                feedListAdapter.setData(pageFeedsModel.getData());
+        feedsViewModel.getAllFeeds(type,date).observe(getViewLifecycleOwner(), new Observer<List<Feed>>() {
+        @Override
+        public void onChanged(List<Feed> feeds) {
+            if(feeds.size() != 0) {
+                feedListAdapter.setData(feeds);
                 progressBar.setVisibility(GONE);
             }
-        });
+        }});
     }
 }

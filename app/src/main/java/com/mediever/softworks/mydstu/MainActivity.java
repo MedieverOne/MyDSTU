@@ -29,4 +29,12 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
 
     }
+
+    @Override
+    protected void onDestroy() {
+        Log.d("HALO","onDestroy");
+        FeedsRepository feedsRepository = new FeedsRepository(getApplication());
+        feedsRepository.deleteAllFeeds();
+        super.onDestroy();
+    }
 }

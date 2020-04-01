@@ -37,5 +37,7 @@
     <string name="itemEvent">События</string>
     <string name="itemMeeting">Встречи</string>
 
+    <string name="departmentsTitle">Подразделения</string>
+
     <string name="ratingSuccess">Спасибо за вашу оценку!</string>
 </resources>

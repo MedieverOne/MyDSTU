@@ -1,45 +1,76 @@
 package com.mediever.softworks.mydstu.feedList;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
+import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.entities.Feed;
+import com.mediever.softworks.mydstu.network.getData.NetworkFeedsRepository;
+import com.mediever.softworks.mydstu.network.models.PageFeedsModel;
 
 import java.util.List;
 
 public class FeedsRepository {
     private FeedsDao feedsDao;
-    private LiveData<List<Feed>> allFeeds;
+    private int downloadedPages;
+    private int totalPages;
+    private Context context;
 
     public FeedsRepository(Application application) {
         FeedsDatabase feedsDatabase = FeedsDatabase.getInstance(application);
+        context = application.getApplicationContext();
         feedsDao = feedsDatabase.feedsDao();
-        allFeeds = feedsDao.getAllFeeds();
+        downloadedPages = 0;
+        totalPages = 0;
     }
 
-    public void insert(Feed feed) {
-        new FeedsRepository.InsertFeedAsyncTask(feedsDao).execute(feed);
+    public void insert(List<Feed> feeds) {
+        new FeedsRepository.InsertFeedAsyncTask(feedsDao).execute(feeds);
     }
+
     public void deleteAllFeeds() {
+        Log.d("HALO","deleteAllFeeds");
         new FeedsRepository.DeleteFeedsAsyncTask(feedsDao).execute();
     }
+
     public LiveData<List<Feed>> getAllFeeds() {
-        return allFeeds;
+        return feedsDao.getAllFeeds();
     }
 
-    private static class InsertFeedAsyncTask extends AsyncTask<Feed,Void,Void> {
+    public LiveData<List<Feed>> getAllFeeds(String type, String date) {
+        if(type.isEmpty() && !date.isEmpty())
+            return feedsDao.getFeedsByDate(date);
+        else if(!type.isEmpty() && date.isEmpty())
+            return feedsDao.getFeedsByType(type);
+        else if(!type.isEmpty() && !date.isEmpty())
+            return feedsDao.getFeedsByTypeAndDate(type,date);
+        else
+            return feedsDao.getAllFeeds();
+    }
+
+    private static class InsertFeedAsyncTask extends AsyncTask<List<Feed>,Void,Void> {
         private FeedsDao feedsDao;
         private InsertFeedAsyncTask(FeedsDao feedsDao) {
             this.feedsDao = feedsDao;
         }
 
         @Override
-        protected Void doInBackground(Feed... feeds) {
+        protected Void doInBackground(List<Feed>... feeds) {
             feedsDao.insert(feeds[0]);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
     }
 
@@ -53,6 +84,29 @@ public class FeedsRepository {
         protected Void doInBackground(Void... voids) {
             feedsDao.deleteAllFeeds();
             return null;
+        }
+    }
+
+    void downloadFeeds(int page) {
+        if(downloadedPages <= totalPages || totalPages == 0) {
+            NetworkFeedsRepository.getInstance().getFeeds(downloadedPages,"","").observeForever(new Observer<PageFeedsModel>() {
+                @Override
+                public void onChanged(PageFeedsModel pageFeedsModel) {
+                    if(pageFeedsModel != null) {
+                        insert(pageFeedsModel.getData());
+                        totalPages = pageFeedsModel.getTotalpages();
+                        downloadedPages++;
+                        downloadFeeds(downloadedPages);
+                    }else {
+                        Toast.makeText(context,R.string.connect_to_server_error,Toast.LENGTH_SHORT).show();
+//                        Toast toast = new Toast(context);
+//                        toast.setText(R.string.connect_to_server_error);
+//                        toast.setDuration(Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER,0,0);
+//                        toast.show();
+                    }
+                }
+            });
         }
     }
 }
