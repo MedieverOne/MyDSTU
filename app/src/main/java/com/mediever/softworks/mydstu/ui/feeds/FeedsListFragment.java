@@ -19,16 +19,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.entities.Feed;
 import com.mediever.softworks.mydstu.feedList.FeedListAdapter;
-import com.mediever.softworks.mydstu.feedList.FeedsRepository;
 import com.mediever.softworks.mydstu.feedList.FeedsViewModel;
-import com.mediever.softworks.mydstu.network.models.PageFeedsModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -40,11 +37,12 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
     private RecyclerView feedsRecycler;
     private FeedListAdapter feedListAdapter;
 
+    private NavController navController;
+
     private FrameLayout progressBar;
     private TextView title;
     private ImageButton buttonCalendar;
 
-    private int page;
     private String date;
     private String type;
 
@@ -55,19 +53,25 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
         progressBar = root.findViewById(R.id.feedsProgressBar);
         title = root.findViewById(R.id.filter_title_feeds);
         buttonCalendar = root.findViewById(R.id.filter_date_feeds);
-        feedsRecycler = root.findViewById(R.id.feedsList);
-        feedsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        feedsRecycler.setHasFixedSize(true);
         title.setOnClickListener(this);
         buttonCalendar.setOnClickListener(this);
 
-        page=0;type="";date="";
-        NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+
         feedListAdapter = new FeedListAdapter(navController);
+
+        feedsRecycler = root.findViewById(R.id.feedsList);
+        feedsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        feedsRecycler.setHasFixedSize(true);
         feedsRecycler.setAdapter(feedListAdapter);
+
+        type="";
+        date="";
+
         feedsViewModel = ViewModelProviders.of(this).get(FeedsViewModel.class);
         feedsViewModel.downloadFeeds();
-        getFeeds(page,type,date);
+        getFeeds("","");
+
         return root;
     }
 
@@ -100,25 +104,25 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
                     case R.id.all_feeds_filter_menu: {
                         type = "";
                         view.setText(R.string.itemAllNews);
-                        getFeeds(page,type,date);
+                        getFeeds(type,date);
                         return true;
                     }
                     case R.id.news_filter_menu: {
                         type = "news";
                         view.setText(R.string.itemNews);
-                        getFeeds(page,type,date);
+                        getFeeds(type,date);
                         return true;
                     }
                     case R.id.meetings_filter_menu: {
                         type = "meeting";
                         view.setText(R.string.itemMeeting);
-                        getFeeds(page,type,date);
+                        getFeeds(type,date);
                         return true;
                     }
                     case R.id.events_filter_menu: {
                         type = "event";
                         view.setText(R.string.itemEvent);
-                        getFeeds(page,type,date);
+                        getFeeds(type,date);
                         return true;
                     }
                 }
@@ -154,7 +158,7 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
         }
     };
 
-    private void getFeeds(int page, String type, String date) {
+    private void getFeeds(String type, String date) {
         feedsViewModel.getAllFeeds(type,date).observe(getViewLifecycleOwner(), new Observer<List<Feed>>() {
         @Override
         public void onChanged(List<Feed> feeds) {

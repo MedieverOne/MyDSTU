@@ -1,6 +1,8 @@
 package com.mediever.softworks.mydstu.feedList;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -28,8 +30,10 @@ public interface FeedsDao {
     @Query("SELECT * FROM feeds_table WHERE type LIKE :type AND date LIKE :date")
     LiveData<List<Feed>> getFeedsByTypeAndDate(String type, String date);
 
+
     @Query("DELETE FROM feeds_table")
     void deleteAllFeeds();
+
     @Query("SELECT * FROM feeds_table ORDER BY id LIMIT 1")
     LiveData<Feed> getLastFeed();
 }

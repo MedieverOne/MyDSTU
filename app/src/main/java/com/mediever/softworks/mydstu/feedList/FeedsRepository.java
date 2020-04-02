@@ -4,12 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.entities.Feed;
@@ -20,9 +22,9 @@ import java.util.List;
 
 public class FeedsRepository {
     private FeedsDao feedsDao;
-    private int downloadedPages;
-    private int totalPages;
     private Context context;
+    private Integer downloadedPages;
+    private Integer totalPages;
 
     public FeedsRepository(Application application) {
         FeedsDatabase feedsDatabase = FeedsDatabase.getInstance(application);
@@ -87,26 +89,23 @@ public class FeedsRepository {
         }
     }
 
-    void downloadFeeds(int page) {
-        if(downloadedPages <= totalPages || totalPages == 0) {
-            NetworkFeedsRepository.getInstance().getFeeds(downloadedPages,"","").observeForever(new Observer<PageFeedsModel>() {
+    public void downloadFeeds(int page) {
+        if(downloadedPages < totalPages || totalPages == 0) {
+            NetworkFeedsRepository.getInstance().getFeeds(page, "", "").observeForever(new Observer<PageFeedsModel>() {
                 @Override
                 public void onChanged(PageFeedsModel pageFeedsModel) {
-                    if(pageFeedsModel != null) {
+                    if (pageFeedsModel != null) {
                         insert(pageFeedsModel.getData());
                         totalPages = pageFeedsModel.getTotalpages();
                         downloadedPages++;
                         downloadFeeds(downloadedPages);
-                    }else {
-                        Toast.makeText(context,R.string.connect_to_server_error,Toast.LENGTH_SHORT).show();
-//                        Toast toast = new Toast(context);
-//                        toast.setText(R.string.connect_to_server_error);
-//                        toast.setDuration(Toast.LENGTH_SHORT);
-//                        toast.setGravity(Gravity.CENTER,0,0);
-//                        toast.show();
+                    } else {
+                        Toast.makeText(context, R.string.connect_to_server_error, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
     }
+
+
 }

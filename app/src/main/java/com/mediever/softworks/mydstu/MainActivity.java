@@ -31,10 +31,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        Log.d("HALO","onDestroy");
+    protected void onStop() {
         FeedsRepository feedsRepository = new FeedsRepository(getApplication());
         feedsRepository.deleteAllFeeds();
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+       // Log.d("HALO","onDestroy");
         super.onDestroy();
     }
 }
