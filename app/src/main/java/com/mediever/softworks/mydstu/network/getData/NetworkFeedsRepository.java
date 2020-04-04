@@ -32,6 +32,8 @@ public class NetworkFeedsRepository {
                     public void onResponse(Call<PageFeedsModel> call, Response<PageFeedsModel> response) {
                         if(response.isSuccessful()) {
                             feedsData.setValue(response.body());
+                        }else{
+                            feedsData.setValue(null);
                         }
                     }
 
