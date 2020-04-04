@@ -3,6 +3,7 @@ package com.mediever.softworks.mydstu.ui.feeds;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,20 +22,24 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.mediever.softworks.mydstu.MainActivity;
 import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.entities.Feed;
 import com.mediever.softworks.mydstu.feedList.FeedListAdapter;
 import com.mediever.softworks.mydstu.feedList.FeedsViewModel;
+import com.mediever.softworks.mydstu.feedList.RecyclerFeedsView;
 
 import java.util.Calendar;
 import java.util.List;
 
 import static android.view.View.GONE;
 
-public class FeedsListFragment extends Fragment implements View.OnClickListener {
+public class FeedsListFragment extends Fragment implements View.OnClickListener,
+        RecyclerFeedsView.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
     private FeedsViewModel feedsViewModel;
-    private RecyclerView feedsRecycler;
+    private RecyclerFeedsView feedsRecycler;
     private FeedListAdapter feedListAdapter;
 
     private NavController navController;
@@ -42,7 +47,10 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
     private FrameLayout progressBar;
     private TextView title;
     private ImageButton buttonCalendar;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private Integer totalPages;
+    private Integer page;
     private String date;
     private String type;
 
@@ -51,25 +59,30 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_feeds_list, container, false);
         progressBar = root.findViewById(R.id.feedsProgressBar);
+        mSwipeRefreshLayout = root.findViewById(R.id.swipeContainerFeeds);
         title = root.findViewById(R.id.filter_title_feeds);
         buttonCalendar = root.findViewById(R.id.filter_date_feeds);
         title.setOnClickListener(this);
         buttonCalendar.setOnClickListener(this);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark,R.color.colorPrimary,R.color.colorAccent);
+
 
         navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
-
         feedListAdapter = new FeedListAdapter(navController);
-
         feedsRecycler = root.findViewById(R.id.feedsList);
-        feedsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        //feedsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         feedsRecycler.setHasFixedSize(true);
         feedsRecycler.setAdapter(feedListAdapter);
 
-        type="";
-        date="";
+        totalPages = ((MainActivity)getActivity()).getTotalPages();
+        Log.d("HALO","totalPages = " + totalPages);
+        page = 0;
+        type = "";
+        date = "";
 
         feedsViewModel = ViewModelProviders.of(this).get(FeedsViewModel.class);
-        feedsViewModel.downloadFeeds();
+        onLoadMore();
         getFeeds("","");
 
         return root;
@@ -165,7 +178,35 @@ public class FeedsListFragment extends Fragment implements View.OnClickListener 
             if(feeds.size() != 0) {
                 feedListAdapter.setData(feeds);
                 progressBar.setVisibility(GONE);
+                if(type.equals("") && page < totalPages) {
+                    feedsRecycler.changeLoading();
+                }
+                if(mSwipeRefreshLayout.isRefreshing())
+                    mSwipeRefreshLayout.setRefreshing(false);
             }
         }});
+    }
+
+    @Override
+    public void onLoadMore() {
+        if(feedsRecycler.isLoading() && page < totalPages) {
+            feedsViewModel.getFeedsPage(page);
+            page++;
+        }
+    }
+
+    @Override
+    public void onRefresh() {
+        if(progressBar.getVisibility() != View.VISIBLE) {
+            page = 0;
+            type = "";
+            date = "";
+            feedsRecycler.setLoading(true);
+            feedListAdapter.clearData();
+            feedsViewModel.deleteAllFeeds();
+            onLoadMore();
+        }else{
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

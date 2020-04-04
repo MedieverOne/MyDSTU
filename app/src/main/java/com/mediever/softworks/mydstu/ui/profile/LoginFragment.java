@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.navigation.NavInflater;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.mediever.softworks.mydstu.MainActivity;
 import com.mediever.softworks.mydstu.R;
 import com.mediever.softworks.mydstu.network.models.LoginModel;
 import com.mediever.softworks.mydstu.profile.UserViewModel;
@@ -42,13 +44,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         regButton.setOnClickListener(this);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
-        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                if(!s.equals(" "))
-                    navController.popBackStack();
-            }
-        });
+
+        if(!((MainActivity)getActivity()).getSessionId().equals("")) {
+            navController.popBackStack();
+        }
+
+//        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
+//            @Override
+//            public void onChanged(String s) {
+//                if(!s.equals(" "))
+//                    navController.popBackStack();
+//            }
+//        });
         return root;
     }
 
@@ -73,7 +80,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         LoginModel loginModel = new LoginModel();
         loginModel.setEmail("allroads2rome@gmail.com");
         loginModel.setPassword("test1111");
-        userViewModel.login(loginModel);
+        userViewModel.login(loginModel).observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s!=null) {
+                    ((MainActivity) getActivity()).setSessionId(s);
+                    Toast.makeText(getContext(),"Вы успешно залогинились!",Toast.LENGTH_SHORT).show();
+                    navController.popBackStack();
+                }else{
+                    Toast.makeText(getContext(),R.string.connect_to_server_error,Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     void regButtonClicked() {

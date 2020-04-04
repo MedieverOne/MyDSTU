@@ -32,12 +32,14 @@ public class FeedsViewModel extends AndroidViewModel {
         return feedsRepository.getAllFeeds();
     }
 
+    public void deleteAllFeeds() { feedsRepository.deleteAllFeeds(); }
+
     public LiveData<List<Feed>> getAllFeeds(String type, String date) {
         return feedsRepository.getAllFeeds(type,date);
     }
 
-    public void downloadFeeds() {
-        feedsRepository.downloadFeeds(0);
+    public void getFeedsPage(Integer page) {
+        feedsRepository.downloadFeeds(page);
     }
 
 }

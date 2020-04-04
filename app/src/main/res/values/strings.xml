@@ -28,7 +28,7 @@
 
     <string name="profile_edit_button">Редактировать</string>
 
-    <string name="connect_to_server_error">Ошибка подключения к серверу. Порпобуйте снова…</string>
+    <string name="connect_to_server_error">Ошибка подключения к серверу. Попробуйте снова…</string>
 
     <string name="calendHint">"Выберите дату события/новости/мероприятия\n(для выбора текущей даты, нажмите на неё)"</string>
 
@@ -40,4 +40,10 @@
     <string name="departmentsTitle">Подразделения</string>
 
     <string name="ratingSuccess">Спасибо за вашу оценку!</string>
+    <string name="ratingTitle">Оцените пожалуйста эту новость!</string>
+    <string name="ratingOk">Оценить!</string>
+    <string name="ratingClose">Закрыть</string>
+
+    <string name="regSuccess">Вы успешно зарегистрировались!</string>
+
 </resources>

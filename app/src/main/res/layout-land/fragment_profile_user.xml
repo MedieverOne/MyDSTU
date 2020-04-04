@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@mipmap/backround_login"
+    tools:context=".ui.profile.UserFragment">
+
+    <LinearLayout
+        android:id="@+id/buttonsContainer_user"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/blue_gradient"
+        app:layout_constraintBottom_toTopOf="@id/headContainer_user"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constrainedHeight="true"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/ibEdit_user"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:src="@drawable/account_edit_drawable" />
+
+        <ImageButton
+            android:id="@+id/ibExit_user"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:src="@drawable/exit_run_drawable" />
+    </LinearLayout>
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/headContainer_user"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonsContainer_user"
+        app:layout_constraintBottom_toTopOf="@id/email_user"
+        app:layout_constraintVertical_weight="3">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/blue_gradient"
+            android:elevation="9dp">
+            <TextView
+                android:id="@+id/userName_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                style="@style/ItemTitleText"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:text="Мартыщенко В.А">
+
+            </TextView>
+        </FrameLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dstu_main_view_cropped_sec"></ImageView>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/email_user"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/blue_gradient_reversed"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/headContainer_user"
+        app:layout_constraintBottom_toTopOf="@id/faculty_user"
+        style="@style/ItemTitleText"
+        android:gravity="center"
+        android:text="allroads2rome@gmail.com">
+
+    </TextView>
+    <TextView
+        android:id="@+id/faculty_user"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/blue_gradient_reversed"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/email_user"
+        app:layout_constraintBottom_toTopOf="@id/course_user"
+        style="@style/ItemTitleText"
+        android:gravity="center"
+        android:text="ИиВТ">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/course_user"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/blue_gradient_reversed"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/faculty_user"
+        app:layout_constraintBottom_toTopOf="@id/group_user"
+        style="@style/ItemTitleText"
+        android:gravity="center"
+        android:text="2 курс">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/group_user"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/blue_gradient_reversed"
+        android:paddingBottom="10dp"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toBottomOf="@id/course_user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/ItemTitleText"
+        android:gravity="center"
+        android:text="ВПР-23">
+
+    </TextView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

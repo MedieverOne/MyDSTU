@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,8 +46,12 @@ public class DepartmentsListFragment extends Fragment {
         departmentsViewModel.getAllDepartments().observe(getViewLifecycleOwner(), new Observer<DepartmentsModel>() {
             @Override
             public void onChanged(DepartmentsModel departments) {
-                    departmentsAdapter.setData(departments.getList());
-                    progressBar.setVisibility(View.GONE);
+                    if(departments != null) {
+                        departmentsAdapter.setData(departments.getList());
+                        progressBar.setVisibility(View.GONE);
+                    }else {
+                        Toast.makeText(getContext(), R.string.connect_to_server_error, Toast.LENGTH_SHORT).show();
+                    }
             }
         });
 

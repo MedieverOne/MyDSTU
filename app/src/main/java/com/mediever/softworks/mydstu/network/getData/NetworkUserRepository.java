@@ -1,5 +1,8 @@
 package com.mediever.softworks.mydstu.network.getData;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -14,15 +17,7 @@ import retrofit2.Response;
 
 public class NetworkUserRepository {
         private static NetworkUserRepository instance;
-        private static MutableLiveData<User> user;
-        private static MutableLiveData<String> sessionId;
-        public static boolean loginCheck = false;
-
-        private NetworkUserRepository() {
-            user = new MutableLiveData<>();
-            sessionId = new MutableLiveData<>();
-            sessionId.setValue(" ");
-        }
+        private static Context context;
 
         public static NetworkUserRepository getInstance() {
             if(instance == null) {
@@ -31,7 +26,8 @@ public class NetworkUserRepository {
             return instance;
         }
 
-        public synchronized void login(LoginModel loginModel) {
+        public synchronized MutableLiveData<String> login(LoginModel loginModel) {
+            final MutableLiveData<String> sessionId = new MutableLiveData<>();
             NetworkService.getInstance().getServerApi().login(loginModel).enqueue(new Callback<ErrorMessage>() {
                 @Override
                 public void onResponse(Call<ErrorMessage> call, Response<ErrorMessage> response) {
@@ -39,39 +35,31 @@ public class NetworkUserRepository {
                         sessionId.setValue(response.headers()
                                 .values("Set-Cookie").toString()
                                 .replace("[", "").replace("]", ""));
-                        loginCheck = true;
                     }
                 }
 
                 @Override
                 public void onFailure(Call<ErrorMessage> call, Throwable t) {
-
+                    sessionId.setValue(null);
                 }
             });
+            return sessionId;
         }
 
-        public synchronized MutableLiveData<User> getUser() {
+        public synchronized MutableLiveData<User> getUser(String sessionId) {
             final MutableLiveData<User> user = new MutableLiveData<>();
-            if(loginCheck) {
-                NetworkService.getInstance().getServerApi().getUser(sessionId.getValue()).enqueue(new Callback<User>() {
+            NetworkService.getInstance().getServerApi().getUser(sessionId).enqueue(new Callback<User>() {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
-                        if(response.isSuccessful()) {
+                        if(response.isSuccessful())
                             user.setValue(response.body());
-                        }
                     }
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
-
-                    }
-                });
-            }
+                        user.setValue(null);
+                    }});
             return user;
-        }
-
-        public synchronized LiveData<String> getSessionId() {
-            return sessionId;
         }
 
 }

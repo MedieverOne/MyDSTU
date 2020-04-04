@@ -1,5 +1,7 @@
 package com.mediever.softworks.mydstu.ui.feeds;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RatingBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,7 +51,38 @@ public class FullFeedFragment extends Fragment {
                 }
             }
         });
-
         return root;
+    }
+
+    private void showRatingDialog() {
+        final AlertDialog.Builder ratingDialog = new AlertDialog.Builder(getContext());
+
+        ratingDialog.setTitle(R.string.ratingTitle);
+
+        View linearLayout = getLayoutInflater().inflate(R.layout.rating_bar_dialog, null);
+        ratingDialog.setView(linearLayout);
+
+        final RatingBar finalRating = linearLayout.findViewById(R.id.feedFinalRatingBar);
+        ratingDialog.setPositiveButton(R.string.ratingOk, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),R.string.ratingSuccess,Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        }).setNegativeButton(R.string.ratingClose, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        ratingDialog.create();
+        ratingDialog.show();
+    }
+
+    @Override
+    public void onDestroy() {
+        showRatingDialog();
+        super.onDestroy();
     }
 }

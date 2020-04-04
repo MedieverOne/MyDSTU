@@ -16,15 +16,11 @@ public class UserViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public LiveData<User> getUser() {
-        return NetworkUserRepository.getInstance().getUser();
+    public LiveData<User> getUser(String sessionId) {
+        return NetworkUserRepository.getInstance().getUser(sessionId);
     }
 
-    public LiveData<String> getSessionId() {
-        return NetworkUserRepository.getInstance().getSessionId();
-    }
-
-    public void login(LoginModel loginModel) {
-        NetworkUserRepository.getInstance().login(loginModel);
+    public LiveData<String> login(LoginModel loginModel) {
+        return NetworkUserRepository.getInstance().login(loginModel);
     }
 }

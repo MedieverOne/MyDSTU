@@ -90,22 +90,35 @@ public class FeedsRepository {
     }
 
     public void downloadFeeds(int page) {
-        if(downloadedPages < totalPages || totalPages == 0) {
-            NetworkFeedsRepository.getInstance().getFeeds(page, "", "").observeForever(new Observer<PageFeedsModel>() {
+        NetworkFeedsRepository.getInstance().getFeeds(page, "", "").observeForever(new Observer<PageFeedsModel>() {
                 @Override
                 public void onChanged(PageFeedsModel pageFeedsModel) {
                     if (pageFeedsModel != null) {
                         insert(pageFeedsModel.getData());
-                        totalPages = pageFeedsModel.getTotalpages();
-                        downloadedPages++;
-                        downloadFeeds(downloadedPages);
                     } else {
                         Toast.makeText(context, R.string.connect_to_server_error, Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }
     }
+
+//    public void downloadFeeds(int page) {
+//        if(downloadedPages < totalPages || totalPages == 0) {
+//            NetworkFeedsRepository.getInstance().getFeeds(page, "", "").observeForever(new Observer<PageFeedsModel>() {
+//                @Override
+//                public void onChanged(PageFeedsModel pageFeedsModel) {
+//                    if (pageFeedsModel != null) {
+//                        insert(pageFeedsModel.getData());
+//                        totalPages = pageFeedsModel.getTotalpages();
+//                        downloadedPages++;
+//                        downloadFeeds(downloadedPages);
+//                    } else {
+//                        Toast.makeText(context, R.string.connect_to_server_error, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//        }
+//    }
 
 
 }
