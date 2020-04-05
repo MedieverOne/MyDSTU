@@ -45,5 +45,11 @@
     <string name="ratingClose">Закрыть</string>
 
     <string name="regSuccess">Вы успешно зарегистрировались!</string>
+    <string name="logSuccess">Вы успешно вошли в свой профиль!</string>
+
+    <string name="userHintCourse">Ваш курс…</string>
+    <string name="userHintGroup">Ваша группа…</string>
+    <string name="userHintFaculty">Ваш факультет…</string>
+
 
 </resources>

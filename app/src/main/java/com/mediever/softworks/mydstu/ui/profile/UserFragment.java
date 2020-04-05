@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,11 @@ import retrofit2.Response;
 public class UserFragment extends Fragment implements View.OnClickListener{
     private UserViewModel userViewModel;
     private String sessionId;
+    TextView tvName;
+    TextView tvEmail;
+    TextView tvFaculty;
+    TextView tvGroup;
+    TextView tvCourse;
     ImageButton ibEdit;
     ImageButton ibExit;
 
@@ -48,11 +54,13 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         View root = inflater.inflate(R.layout.fragment_profile_user,container,false);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
         sessionId = ((MainActivity)getActivity()).getSessionId();
+        ibEdit = root.findViewById(R.id.ibEdit_user);
+        ibExit = root.findViewById(R.id.ibExit_user);
         userViewModel.getUser(sessionId).observe(getViewLifecycleOwner(), new Observer<User>() {
             @Override
             public void onChanged(User user) {
                 if(user != null) {
-                    Toast.makeText(getContext(),"Success!",Toast.LENGTH_SHORT).show();
+                    initUser(user);
                 }else{
                     Toast.makeText(getContext(),R.string.connect_to_server_error,Toast.LENGTH_SHORT).show();
                 }
@@ -63,13 +71,14 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
         switch(v.getId()) {
             case R.id.ibEdit_user:
-                NavController navController = Navigation.findNavController(getActivity(),R.id.nav_host_fragment);
                 navController.navigate(R.id.action_profile_user_to_useredit);
                 break;
             case R.id.ibExit_user:
                 logout(sessionId);
+                navController.popBackStack();
                 break;
         }
     }
@@ -102,5 +111,23 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         Toast toast = Toast.makeText(getContext(),str,length);
         toast.setGravity(Gravity.AXIS_CLIP,0,0);
         toast.show();
+    }
+
+    private void initUser(User user) {
+        String name = user.getName() + " " + user.getSurname();
+        tvName.setText(name);
+        tvEmail.setText(user.getEmail());
+        if (user.getFaculty().equals(""))
+            tvFaculty.setText(R.string.userHintFaculty);
+        else
+            tvFaculty.setText(user.getFaculty());
+        if (user.getCourse().equals(""))
+            tvCourse.setText(R.string.userHintCourse);
+        else
+            tvCourse.setText(user.getCourse());
+        if (user.getGroup().equals(""))
+            tvGroup.setText(R.string.userHintGroup);
+        else
+            tvGroup.setText(user.getGroup());
     }
 }

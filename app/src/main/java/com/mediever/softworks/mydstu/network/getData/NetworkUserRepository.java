@@ -17,7 +17,6 @@ import retrofit2.Response;
 
 public class NetworkUserRepository {
         private static NetworkUserRepository instance;
-        private static Context context;
 
         public static NetworkUserRepository getInstance() {
             if(instance == null) {
@@ -26,7 +25,7 @@ public class NetworkUserRepository {
             return instance;
         }
 
-        public synchronized MutableLiveData<String> login(LoginModel loginModel) {
+        public synchronized MutableLiveData<String> login(LoginModel loginModel, Context context) {
             final MutableLiveData<String> sessionId = new MutableLiveData<>();
             NetworkService.getInstance().getServerApi().login(loginModel).enqueue(new Callback<ErrorMessage>() {
                 @Override
@@ -35,6 +34,9 @@ public class NetworkUserRepository {
                         sessionId.setValue(response.headers()
                                 .values("Set-Cookie").toString()
                                 .replace("[", "").replace("]", ""));
+                    }else{
+                        sessionId.setValue(null);
+                        Toast.makeText(context,response.body().getError(),Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -61,5 +63,4 @@ public class NetworkUserRepository {
                     }});
             return user;
         }
-
 }

@@ -23,5 +23,5 @@ public abstract class FeedsDatabase extends RoomDatabase {
                     .build();
         }
         return instance;
-    } // constructor
-} // class
+    }
+}

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,9 +29,10 @@ import com.mediever.softworks.mydstu.profile.UserViewModel;
 import java.util.zip.Inflater;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
+    EditText etEmail;
+    EditText etPassword;
     Button logButton;
     Button regButton;
-    LoginModel loginModel;
     UserViewModel userViewModel;
     NavController navController;
 
@@ -40,6 +42,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View root = inflater.inflate(R.layout.fragment_profile_login,container,false);
         logButton = root.findViewById(R.id.logButton_login);
         regButton = root.findViewById(R.id.regButton_login);
+        etEmail = root.findViewById(R.id.etLogin_login);
+        etPassword = root.findViewById(R.id.etPassword_login);
         logButton.setOnClickListener(this);
         regButton.setOnClickListener(this);
         userViewModel = ViewModelProviders.of(this).get(UserViewModel.class);
@@ -48,14 +52,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         if(!((MainActivity)getActivity()).getSessionId().equals("")) {
             navController.popBackStack();
         }
-
-//        userViewModel.getSessionId().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(String s) {
-//                if(!s.equals(" "))
-//                    navController.popBackStack();
-//            }
-//        });
         return root;
     }
 
@@ -76,19 +72,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     } // onClicked
 
     @SuppressLint("ResourceType")
-    void logButtonClicked() {
+    private void logButtonClicked() {
         LoginModel loginModel = new LoginModel();
-        loginModel.setEmail("allroads2rome@gmail.com");
-        loginModel.setPassword("test1111");
-        userViewModel.login(loginModel).observe(getViewLifecycleOwner(), new Observer<String>() {
+        loginModel.setEmail(etEmail.getText().toString());
+        loginModel.setPassword(etPassword.getText().toString());
+        userViewModel.login(loginModel,getContext()).observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 if(s!=null) {
                     ((MainActivity) getActivity()).setSessionId(s);
-                    Toast.makeText(getContext(),"Вы успешно залогинились!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),R.string.logSuccess,Toast.LENGTH_SHORT).show();
                     navController.popBackStack();
-                }else{
-                    Toast.makeText(getContext(),R.string.connect_to_server_error,Toast.LENGTH_SHORT).show();
                 }
             }
         });
